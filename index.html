@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>박준혁 | 드론 지도조종자 & AI 테크 포트폴리오</title>
+
+    <!-- Pretendard & Outfit Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Pretendard:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Pretendard", "sans-serif"],
+              display: ["Outfit", "sans-serif"],
+            },
+            colors: {
+              warm: {
+                50: "#fffbf7",
+                100: "#fdf3e8",
+                200: "#fae3cd",
+                300: "#f4c59a",
+                400: "#ec9e60",
+                500: "#e07a5f", // 메인 웜 테라코타
+                600: "#c25e36",
+                700: "#a34828",
+                800: "#833923",
+                900: "#6c301f",
+              },
+              sand: {
+                50: "#fdfcf9",
+                100: "#f7f4ee",
+                200: "#eee8dc",
+                300: "#ded4c0",
+              },
+              charcoal: {
+                800: "#2d3142",
+                700: "#3d405b",
+                600: "#4f5d73",
+                500: "#6f7d95",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* 커스텀 부드러운 스크롤 */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f7f4ee;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #ded4c0;
+        border-radius: 9999px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #c25e36;
+      }
+
+      .warm-radial-glow {
+        background: radial-gradient(
+          circle at 85% 15%,
+          rgba(224, 122, 95, 0.15) 0%,
+          rgba(253, 252, 249, 0) 65%
+        );
+      }
+
+      @keyframes gentle-hover {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-7px);
+        }
+      }
+      .hover-drone {
+        animation: gentle-hover 5s ease-in-out infinite;
+      }
+
+      /* 인쇄 최적화 */
+      @media print {
+        header,
+        #checklist,
+        #contact,
+        #toast,
+        .no-print {
+          display: none !important;
+        }
+        body {
+          background: white !important;
+          color: black !important;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-sand-50 text-charcoal-800 font-sans selection:bg-warm-200 selection:text-warm-900 min-h-screen"
+  >
+    <!-- ==================== 헤더 네비게이션 ==================== -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-sand-50/90 backdrop-blur-md border-b border-sand-200 transition-all"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between"
+      >
+        <!-- 로고 -->
+        <a href="#hero" class="flex items-center gap-3 group">
+          <div
+            class="w-9 h-9 rounded-xl bg-warm-100 border border-warm-300 flex items-center justify-center text-warm-600 shadow-sm group-hover:scale-105 transition"
+          >
+            <i data-lucide="compass" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span
+              class="font-bold text-base tracking-tight text-charcoal-800 block leading-tight"
+              >박준혁</span
+            >
+            <span
+              class="text-[10px] font-semibold tracking-wider text-warm-600 uppercase"
+              >Drone & AI Specialist</span
+            >
+          </div>
+        </a>
+
+        <!-- 데스크톱 메뉴 링크 -->
+        <nav
+          class="hidden md:flex items-center gap-6 text-xs font-semibold text-charcoal-600"
+        >
+          <a href="#synergy" class="hover:text-warm-600 transition-colors"
+            >3대 융합 역량</a
+          >
+          <a
+            href="#certifications"
+            class="hover:text-warm-600 transition-colors"
+            >공인 자격(8종)</a
+          >
+          <a href="#statement" class="hover:text-warm-600 transition-colors"
+            >자기소개서(4문항)</a
+          >
+          <a href="#checklist" class="hover:text-warm-600 transition-colors"
+            >안전점검 SOP</a
+          >
+          <a href="#faq" class="hover:text-warm-600 transition-colors"
+            >기술 인터뷰 FAQ</a
+          >
+        </nav>
+
+        <!-- 우측 빠른 액션 -->
+        <div class="flex items-center gap-2">
+          <button
+            onclick="window.print()"
+            class="no-print hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-sand-300 hover:bg-sand-100 text-charcoal-700 text-xs font-semibold transition"
+          >
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> 인쇄
+          </button>
+          <button
+            onclick="copyEmail()"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-warm-500 hover:bg-warm-600 text-white text-xs font-semibold shadow-sm shadow-warm-500/20 transition active:scale-95"
+          >
+            <i data-lucide="mail" class="w-3.5 h-3.5"></i> 이메일 문의
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section
+      id="hero"
+      class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden warm-radial-glow"
+    >
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <!-- 좌측 헤드라인 & 소개글 -->
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div
+              class="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-warm-100 text-warm-800 border border-warm-200"
+            >
+              <span class="w-2 h-2 rounded-full bg-warm-500"></span>
+              <span>국가전문자격 지도조종자 · 1종 조종자</span>
+              <span class="text-warm-300">•</span>
+              <span class="text-warm-700 font-bold">Google AI Certified</span>
+            </div>
+
+            <div class="space-y-3">
+              <span
+                class="text-xs uppercase tracking-widest text-warm-600 font-bold block"
+                >Smart Aerial & AI Solutions</span
+              >
+              <h1
+                class="text-3xl sm:text-5xl font-extrabold text-charcoal-800 tracking-tight leading-[1.3]"
+              >
+                완벽한 착륙을 이끄는 집념,<br />
+                <span class="text-warm-600">데이터와 AI로 하늘을 엽니다.</span>
+              </h1>
+              <p
+                class="text-base sm:text-lg text-charcoal-600 font-medium leading-relaxed"
+              >
+                "나의 실력은 멈추지 않고, 원리 분석과 끊임없는 기본기로 하늘로
+                상승할 것입니다."
+              </p>
+            </div>
+
+            <p
+              class="text-sm text-charcoal-600 leading-relaxed max-w-xl mx-auto lg:mx-0"
+            >
+              단순한 스틱 조작에 머무르지 않고, 항공역학 원리와 비행 로그 복기로
+              오차를 정밀 교정합니다. 현장 무사고 표준을 확립하는
+              <strong>지도조종자 역량</strong>과
+              <strong>디지털 미디어 가공 기술</strong>, 그리고
+              <strong>Google AI 전문 자격</strong>을 결합해 차세대 스마트 드론
+              솔루션을 제시하는 조종사 <strong>박준혁</strong>입니다.
+            </p>
+
+            <!-- 주요 버튼 그룹 -->
+            <div
+              class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2"
+            >
+              <a
+                href="#statement"
+                class="px-6 py-3 rounded-xl bg-warm-500 hover:bg-warm-600 text-white font-bold text-sm shadow-md shadow-warm-500/20 transition flex items-center gap-2"
+              >
+                <i data-lucide="file-text" class="w-4 h-4"></i> 자기소개서 전문
+                열람
+              </a>
+              <button
+                onclick="copyEmail()"
+                class="px-5 py-3 rounded-xl border border-sand-300 bg-white hover:bg-sand-100 text-charcoal-800 text-sm font-semibold transition flex items-center gap-2 shadow-sm"
+              >
+                <i data-lucide="copy" class="w-4 h-4 text-warm-600"></i> 이메일
+                주소 복사
+              </button>
+            </div>
+
+            <!-- 보안 필터링된 기본 메타 정보 배너 -->
+            <div
+              class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-sand-200"
+            >
+              <div
+                class="p-3 rounded-xl bg-white/90 border border-sand-200 shadow-sm text-left"
+              >
+                <div class="text-[11px] text-charcoal-500 font-medium">
+                  연령 / 세대
+                </div>
+                <div class="text-xs font-bold text-charcoal-800 mt-0.5">
+                  2003년생 (청년 인재)
+                </div>
+              </div>
+              <div
+                class="p-3 rounded-xl bg-white/90 border border-sand-200 shadow-sm text-left"
+              >
+                <div class="text-[11px] text-charcoal-500 font-medium">
+                  희망 근무지
+                </div>
+                <div class="text-xs font-bold text-charcoal-800 mt-0.5">
+                  경기 의정부시 · 서울
+                </div>
+              </div>
+              <div
+                class="p-3 rounded-xl bg-white/90 border border-sand-200 shadow-sm text-left"
+              >
+                <div class="text-[11px] text-charcoal-500 font-medium">
+                  기동성
+                </div>
+                <div class="text-xs font-bold text-warm-600 mt-0.5">
+                  2종보통 · 차량 소지
+                </div>
+              </div>
+              <div
+                class="p-3 rounded-xl bg-white/90 border border-sand-200 shadow-sm text-left"
+              >
+                <div class="text-[11px] text-charcoal-500 font-medium">
+                  전역 예정일
+                </div>
+                <div class="text-xs font-bold text-charcoal-800 mt-0.5">
+                  2027년 5월 20일
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측 그래픽 & 비행 상태 인터랙티브 카드 -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div
+              class="relative w-80 sm:w-96 rounded-3xl bg-white border border-sand-200 p-6 sm:p-7 shadow-xl shadow-warm-900/5 overflow-hidden"
+            >
+              <div
+                class="flex items-center justify-between pb-4 border-b border-sand-100"
+              >
+                <span
+                  class="text-xs font-bold text-warm-600 flex items-center gap-1.5"
+                >
+                  <span
+                    class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"
+                  ></span>
+                  FLIGHT & AI READY
+                </span>
+                <span class="text-[11px] font-mono text-charcoal-500 font-bold"
+                  >PARK JUN-HYEOK</span
+                >
+              </div>
+
+              <!-- 실제 업로드한 증명사진 프레임 (일러스트 배제, 사진 직접 출력) -->
+              <div class="py-4 text-center">
+                <div
+                  class="relative w-48 h-64 sm:w-52 sm:h-68 mx-auto rounded-2xl overflow-hidden border-2 border-warm-300 shadow-md bg-sand-100 flex items-center justify-center"
+                >
+                  <!-- 실제 증명사진 원본 이미지 -->
+                  <img
+                    id="profileImg"
+                    src="image_2.png"
+                    alt="박준혁 조종사 프로필 사진"
+                    class="w-full h-full object-cover object-top"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='input_file_0.png';"
+                  />
+
+                  <!-- 지도조종자 공식 인증 뱃지 -->
+                  <div
+                    class="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-lg bg-charcoal-800/85 backdrop-blur-sm text-white text-[10px] font-bold shadow-md flex items-center gap-1 z-10 pointer-events-none"
+                  >
+                    <i
+                      data-lucide="shield-check"
+                      class="w-3.5 h-3.5 text-warm-400"
+                    ></i>
+                    지도조종자
+                  </div>
+                </div>
+
+                <h4
+                  class="text-lg font-extrabold text-charcoal-800 mt-3.5 tracking-tight"
+                >
+                  박준혁 (Park Jun-hyeok)
+                </h4>
+                <p class="text-xs font-medium text-warm-700 mt-0.5">
+                  초경량비행장치 지도조종자 · Google AI Specialist
+                </p>
+              </div>
+
+              <!-- 3대 핵심 지표 요약 -->
+              <div
+                class="grid grid-cols-3 gap-2 text-center text-xs pt-3 border-t border-sand-100 bg-sand-100/60 p-3 rounded-2xl"
+              >
+                <div>
+                  <span class="text-[10px] text-charcoal-500 block"
+                    >비행 자격</span
+                  >
+                  <span class="font-bold text-warm-800">지도조종자</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-charcoal-500 block"
+                    >운용 등급</span
+                  >
+                  <span class="font-bold text-warm-800">무인기 1종</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-charcoal-500 block"
+                    >비행 기록</span
+                  >
+                  <span class="font-bold text-emerald-600">무사고 100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 1. 3대 융합 역량 (DRONE × MEDIA × GOOGLE AI) ==================== -->
+    <section id="synergy" class="py-20 bg-sand-100/70 border-y border-sand-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-xs font-bold text-warm-600 tracking-wider uppercase"
+            >Triple Synergy Capabilities</span
+          >
+          <h2 class="text-3xl font-extrabold text-charcoal-800 mt-1">
+            드론 · 미디어 · Google AI의 결합
+          </h2>
+          <p class="text-sm text-charcoal-600 mt-2">
+            단순 조종을 넘어 항공 데이터를 수집, 시각화하고 AI로 자동화하는
+            차별화된 실무 경쟁력입니다.
+          </p>
+          <div class="w-12 h-1 bg-warm-500 mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- 역량 1: 정밀 비행 & 안전 교육 -->
+          <div
+            class="p-7 rounded-3xl bg-white border border-sand-200 shadow-sm hover:shadow-md transition space-y-4"
+          >
+            <div
+              class="w-12 h-12 rounded-2xl bg-warm-100 text-warm-600 flex items-center justify-center"
+            >
+              <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[11px] font-bold text-warm-600 uppercase"
+              >Flight & Instruction</span
+            >
+            <h3 class="text-lg font-bold text-charcoal-800">
+              정밀 비행 & 비행 표준 교육
+            </h3>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              무인멀티콥터 1종 조종 자격과 지도조종자(교관) 라이선스를 기반으로,
+              25kg 초과 대형 기체까지 정밀 제어합니다. 측풍 카운터 키 조작과
+              비행 로그 복기로 교육생에게 표준 조종 기술을 정확히 전수합니다.
+            </p>
+            <div
+              class="pt-3 border-t border-sand-100 flex flex-wrap gap-1.5 text-[11px]"
+            >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-sand-100 text-charcoal-700 font-medium"
+                >지도조종자</span
+              >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-sand-100 text-charcoal-700 font-medium"
+                >1종 조종자</span
+              >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-sand-100 text-charcoal-700 font-medium"
+                >무사고 100%</span
+              >
+            </div>
+          </div>
+
+          <!-- 역량 2: 디지털 미디어 & 그래픽 후가공 -->
+          <div
+            class="p-7 rounded-3xl bg-white border border-sand-200 shadow-sm hover:shadow-md transition space-y-4"
+          >
+            <div
+              class="w-12 h-12 rounded-2xl bg-warm-100 text-warm-600 flex items-center justify-center"
+            >
+              <i data-lucide="palette" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[11px] font-bold text-warm-600 uppercase"
+              >Media & Design</span
+            >
+            <h3 class="text-lg font-bold text-charcoal-800">
+              항공 영상 촬영 및 그래픽 가공
+            </h3>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              디지털미디어 전공과 컴퓨터그래픽스운용기능사, GTQ/GTQi 1급 역량을
+              바탕으로 항공 촬영 구도 설계는 물론, 촬영 데이터의 2차 색보정 및
+              그래픽 편집, 비행 구역 맵핑 자료 제작을 완벽히 수행합니다.
+            </p>
+            <div
+              class="pt-3 border-t border-sand-100 flex flex-wrap gap-1.5 text-[11px]"
+            >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-sand-100 text-charcoal-700 font-medium"
+                >컴퓨터그래픽스</span
+              >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-sand-100 text-charcoal-700 font-medium"
+                >GTQ 1급</span
+              >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-sand-100 text-charcoal-700 font-medium"
+                >GTQi 일러스트 1급</span
+              >
+            </div>
+          </div>
+
+          <!-- 역량 3: Google AI 데이터 분석 & 솔루션 -->
+          <div
+            class="p-7 rounded-3xl bg-white border border-warm-300 shadow-md hover:shadow-lg transition space-y-4 relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-24 h-24 bg-warm-100/50 rounded-bl-full pointer-events-none"
+            ></div>
+            <div
+              class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-warm-500 to-warm-600 text-white flex items-center justify-center shadow-sm"
+            >
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <span class="text-[11px] font-bold text-warm-600 uppercase"
+              >Google AI Professional</span
+            >
+            <h3 class="text-lg font-bold text-charcoal-800">
+              AI 기반 데이터 분석 & 업무 최적화
+            </h3>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              Google 8개 공인 AI 과정을 수료하여 비행 로그 통계 분석, 비행 경로
+              기획 자동화, 프롬프트 엔지니어링을 활용한 행정 문서화 및 AI 솔루션
+              프로토타입 구축 역량을 보유하고 있습니다.
+            </p>
+            <div
+              class="pt-3 border-t border-sand-100 flex flex-wrap gap-1.5 text-[11px]"
+            >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-warm-100 text-warm-800 font-semibold"
+                >Google AI Certified</span
+              >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-warm-100 text-warm-800 font-semibold"
+                >데이터 분석</span
+              >
+              <span
+                class="px-2.5 py-1 rounded-lg bg-warm-100 text-warm-800 font-semibold"
+                >AI App 배포</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. 공인 자격면허 (총 8종 체계적 구성) ==================== -->
+    <section id="certifications" class="py-20 max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-bold text-warm-600 tracking-wider uppercase"
+          >Official Credentials</span
+        >
+        <h2 class="text-3xl font-extrabold text-charcoal-800 mt-1">
+          공인 보유 자격면허 (총 8종)
+        </h2>
+        <p class="text-sm text-charcoal-600 mt-2">
+          항공 조종·교관 자격, 글로벌 테크 AI 인증, 디자인 및 문서 실무 자격을
+          갖췄습니다.
+        </p>
+        <div class="w-12 h-1 bg-warm-500 mx-auto mt-3 rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- 1. 지도조종자 (하이라이트 카드) -->
+        <div
+          class="p-6 rounded-3xl bg-gradient-to-br from-warm-500 to-warm-600 text-white shadow-lg shadow-warm-500/20 relative"
+        >
+          <span
+            class="absolute top-4 right-4 text-[10px] bg-white text-warm-800 font-extrabold px-2.5 py-0.5 rounded-full uppercase"
+            >교관 라이선스</span
+          >
+          <div
+            class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mb-4"
+          >
+            <i data-lucide="award" class="w-6 h-6 text-white"></i>
+          </div>
+          <span class="text-xs font-semibold text-warm-100">국가전문자격</span>
+          <h3 class="text-lg font-black mt-0.5">지도조종자</h3>
+          <p class="text-xs text-warm-100 mt-2 leading-relaxed">
+            초경량비행장치 표준 비행 원리와 실기 조종 기술을 타인에게 정확히
+            교육·전수할 수 있는 교관 자격
+          </p>
+          <div
+            class="mt-4 pt-4 border-t border-white/20 text-xs flex justify-between text-warm-100 font-medium"
+          >
+            <span>한국교통안전공단</span>
+            <span>2026.11.04</span>
+          </div>
+        </div>
+
+        <!-- 2. 신규 추가: Google AI Professional Certificate (글로벌 테크 강조) -->
+        <div
+          class="p-6 rounded-3xl bg-white border-2 border-warm-400 shadow-md relative group hover:border-warm-500 transition"
+        >
+          <span
+            class="absolute top-4 right-4 text-[10px] bg-warm-100 text-warm-800 font-bold px-2.5 py-0.5 rounded-full uppercase"
+            >Global AI</span
+          >
+          <div
+            class="w-10 h-10 rounded-xl bg-warm-50 text-warm-600 flex items-center justify-center mb-4 border border-warm-200"
+          >
+            <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+          </div>
+          <span class="text-xs font-semibold text-warm-600"
+            >전문 수료 자격 (8 Courses)</span
+          >
+          <h3 class="text-base font-bold text-charcoal-800 mt-0.5">
+            Google AI Professional Certificate
+          </h3>
+          <p class="text-xs text-charcoal-600 mt-2 leading-relaxed">
+            AI 기초, 기획, 리서치, 커뮤니케이션, 콘텐츠 제작, 데이터 분석, AI 앱
+            제작 및 배포 완료
+          </p>
+          <div class="mt-3">
+            <a
+              href="https://coursera.org/verify/professional-cert/DK129YDB1EVC"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-xs font-bold text-warm-600 hover:text-warm-700 underline underline-offset-2"
+            >
+              공식 인증서 확인하기
+              <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+          </div>
+          <div
+            class="mt-4 pt-3 border-t border-sand-100 text-xs flex justify-between text-charcoal-500"
+          >
+            <span>Google / Coursera</span>
+            <span class="font-semibold text-charcoal-800">2026.08.20</span>
+          </div>
+        </div>
+
+        <!-- 3. 초경량비행장치조종자 1종 -->
+        <div
+          class="p-6 rounded-3xl bg-white border border-sand-200 shadow-sm hover:border-warm-300 transition"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-warm-100 text-warm-600 flex items-center justify-center mb-4"
+          >
+            <i data-lucide="send" class="w-5 h-5"></i>
+          </div>
+          <span class="text-xs font-semibold text-warm-600">국가전문자격</span>
+          <h3 class="text-base font-bold text-charcoal-800 mt-0.5">
+            초경량비행장치조종자 (1종)
+          </h3>
+          <p class="text-xs text-charcoal-600 mt-2">
+            무인멀티콥터 1종 (최대이륙중량 25kg 초과 대형 기체 비행 운용 자격)
+          </p>
+          <div
+            class="mt-4 pt-4 border-t border-sand-100 text-xs flex justify-between text-charcoal-500"
+          >
+            <span>한국교통안전공단</span>
+            <span class="font-semibold text-charcoal-800">2024.12.05</span>
+          </div>
+        </div>
+
+        <!-- 4. 컴퓨터그래픽스운용기능사 -->
+        <div
+          class="p-6 rounded-3xl bg-white border border-sand-200 shadow-sm hover:border-warm-300 transition"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-warm-100 text-warm-600 flex items-center justify-center mb-4"
+          >
+            <i data-lucide="layers" class="w-5 h-5"></i>
+          </div>
+          <span class="text-xs font-semibold text-warm-600">국가기술자격</span>
+          <h3 class="text-base font-bold text-charcoal-800 mt-0.5">
+            컴퓨터그래픽스운용기능사
+          </h3>
+          <p class="text-xs text-charcoal-600 mt-2">
+            항공 촬영 이미지 및 영상 데이터의 후보정, 합성, 레이아웃 실무
+          </p>
+          <div
+            class="mt-4 pt-4 border-t border-sand-100 text-xs flex justify-between text-charcoal-500"
+          >
+            <span>한국산업인력공단</span>
+            <span class="font-semibold text-charcoal-800">2021.07.16</span>
+          </div>
+        </div>
+
+        <!-- 5. GTQi 1급 & GTQ 1급 -->
+        <div
+          class="p-6 rounded-3xl bg-white border border-sand-200 shadow-sm hover:border-warm-300 transition"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-warm-100 text-warm-600 flex items-center justify-center mb-4"
+          >
+            <i data-lucide="pen-tool" class="w-5 h-5"></i>
+          </div>
+          <span class="text-xs font-semibold text-warm-600"
+            >공인 그래픽 자격 2종</span
+          >
+          <h3 class="text-base font-bold text-charcoal-800 mt-0.5">
+            GTQ 1급 & GTQi(일러스트) 1급
+          </h3>
+          <p class="text-xs text-charcoal-600 mt-2">
+            벡터 기반 비행 구역 심볼 및 맵핑 시각화, 그래픽 리터칭 공인 1급
+          </p>
+          <div
+            class="mt-4 pt-4 border-t border-sand-100 text-xs flex justify-between text-charcoal-500"
+          >
+            <span>한국생산성본부</span>
+            <span class="font-semibold text-charcoal-800"
+              >2021.03 / 2020.12</span
+            >
+          </div>
+        </div>
+
+        <!-- 6. ITQ 한글 A등급 & 자동차운전면허 2종보통 -->
+        <div
+          class="p-6 rounded-3xl bg-white border border-sand-200 shadow-sm hover:border-warm-300 transition flex flex-col justify-between"
+        >
+          <div>
+            <div
+              class="w-10 h-10 rounded-xl bg-warm-100 text-warm-600 flex items-center justify-center mb-4"
+            >
+              <i data-lucide="car" class="w-5 h-5"></i>
+            </div>
+            <span class="text-xs font-semibold text-warm-600"
+              >기동성 및 행정 실무</span
+            >
+            <h3 class="text-base font-bold text-charcoal-800 mt-0.5">
+              운전면허 2종보통 & ITQ A등급
+            </h3>
+            <p class="text-xs text-charcoal-600 mt-2">
+              실제 자차 소지로 현장 기동력 확보, 비행 일지 및 공문서 규격 작성의
+              신속성 보증
+            </p>
+          </div>
+          <div
+            class="mt-4 pt-4 border-t border-sand-100 text-xs flex justify-between text-charcoal-500"
+          >
+            <span>경찰청 / 생산성본부</span>
+            <span class="font-semibold text-charcoal-800"
+              >차량 보유 / A등급</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. 자기소개서 4개 문항 전문 리더 (고용24 표준 규격) ==================== -->
+    <section
+      id="statement"
+      class="py-20 bg-sand-100/70 border-y border-sand-200"
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs font-bold text-warm-600 tracking-wider uppercase"
+            >Cover Letter Statement</span
+          >
+          <h2 class="text-3xl font-extrabold text-charcoal-800 mt-1">
+            자기소개서 전문 열람
+          </h2>
+          <p class="text-sm text-charcoal-600 mt-2">
+            고용24 이력서 등록 표준 규격에 맞춘 4개 직무 핵심 역량입니다.
+          </p>
+          <div class="w-12 h-1 bg-warm-500 mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <!-- 4문항 전환 탭 버튼 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+          <button
+            onclick="switchStatement(1)"
+            id="tab-btn-1"
+            class="tab-btn px-4 py-3 rounded-2xl text-xs font-bold transition text-center bg-warm-500 text-white shadow-md"
+          >
+            1. 지원동기 및 포부
+          </button>
+          <button
+            onclick="switchStatement(2)"
+            id="tab-btn-2"
+            class="tab-btn px-4 py-3 rounded-2xl text-xs font-bold transition text-center bg-white text-charcoal-600 border border-sand-200 hover:bg-sand-50"
+          >
+            2. 성장과정 및 직업관
+          </button>
+          <button
+            onclick="switchStatement(3)"
+            id="tab-btn-3"
+            class="tab-btn px-4 py-3 rounded-2xl text-xs font-bold transition text-center bg-white text-charcoal-600 border border-sand-200 hover:bg-sand-50"
+          >
+            3. 직무역량 & 문제해결
+          </button>
+          <button
+            onclick="switchStatement(4)"
+            id="tab-btn-4"
+            class="tab-btn px-4 py-3 rounded-2xl text-xs font-bold transition text-center bg-white text-charcoal-600 border border-sand-200 hover:bg-sand-50"
+          >
+            4. 협업 & 안전소통
+          </button>
+        </div>
+
+        <!-- 자기소개서 본문 뷰어 카드 -->
+        <div
+          class="bg-white border border-sand-200 rounded-3xl p-6 sm:p-9 shadow-md"
+        >
+          <!-- 문항 1: 지원 동기 및 입사 후 포부 -->
+          <div id="statement-content-1" class="statement-pane block space-y-4">
+            <div
+              class="flex items-center justify-between pb-4 border-b border-sand-100"
+            >
+              <div>
+                <span class="text-[11px] font-bold text-warm-600 uppercase"
+                  >고용24 항목 1 (공백 포함 720자)</span
+                >
+                <h3 class="text-lg font-bold text-charcoal-800">
+                  1. 지원 동기 및 입사 후 포부
+                </h3>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold bg-warm-50 text-warm-700"
+                >비행 전문성 & 포부</span
+              >
+            </div>
+            <div
+              class="text-sm font-bold text-warm-700 bg-warm-50/60 p-3.5 rounded-xl border border-warm-200/50"
+            >
+              [완벽한 착륙을 이끄는 집념으로, 신뢰받는 비행 전문가로
+              성장하겠습니다]
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed pt-2">
+              어린 시절 모형 비행기를 조종하며 품었던 하늘에 대한 동경은,
+              드론이라는 정밀 항공 기술을 접하며 평생을 바칠 확고한 직무 목표로
+              자리 잡았습니다. 단순히 기체를 띄우는 호기심에 머무르지 않고, 조종
+              스틱의 미세한 흔들림까지 통제하는 비행 역량을 갖추고자 전문
+              조종사의 길을 선택했습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              첫 이륙 훈련 당시에는 바람의 저항과 기체 반응 속도를 맞추지 못해
+              고도 유지에 어려움을 겪기도 했습니다. 그러나 비행 궤적을 단계별로
+              복기하고 기체 거동 원리를 반복 분석하며 감각을 체득했습니다.
+              수많은 이착륙 훈련을 거치며 1종 조종자 자격을 취득했고, 나아가
+              다른 이에게 비행 노하우를 정확히 전수할 수 있는 수준에 도달하고자
+              치열한 훈련 끝에 지도조종자 자격까지 취득했습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              입사 후에는 지도조종자로서 축적한 기체 제어력과 안전 지식을
+              바탕으로 현장 업무를 완벽히 수행하겠습니다. 비행 전 체크리스트
+              점검을 생활화하여 돌발 위험 요소를 사전에 차단하고, 교육생이나
+              팀원들에게 안정적인 비행 표준을 제시하는 신뢰도 높은 전문가로
+              활약하겠습니다.
+            </p>
+            <p
+              class="text-sm text-charcoal-600 leading-relaxed font-medium text-warm-900 bg-sand-50 p-3 rounded-xl border border-sand-200/70"
+            >
+              이륙의 설렘보다 착륙의 정교함을 먼저 생각하는 자세로 현장 안전을
+              책임지겠습니다. 나아가 기체 정비 및 고난도 임무 수행 역량을 꾸준히
+              확장하여, 귀사의 비행 운용 신뢰도를 한 단계 끌어올리는 핵심 인재로
+              거듭나겠습니다.
+            </p>
+          </div>
+
+          <!-- 문항 2: 성장과정 및 직업관 -->
+          <div id="statement-content-2" class="statement-pane hidden space-y-4">
+            <div
+              class="flex items-center justify-between pb-4 border-b border-sand-100"
+            >
+              <div>
+                <span class="text-[11px] font-bold text-warm-600 uppercase"
+                  >고용24 항목 2 (공백 포함 708자)</span
+                >
+                <h3 class="text-lg font-bold text-charcoal-800">
+                  2. 성장과정 및 직업관
+                </h3>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold bg-warm-50 text-warm-700"
+                >기본기 & 안전 책임감</span
+              >
+            </div>
+            <div
+              class="text-sm font-bold text-warm-700 bg-warm-50/60 p-3.5 rounded-xl border border-warm-200/50"
+            >
+              [완벽한 안전과 기본기에 타협하지 않는 비행 전문가]
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed pt-2">
+              어린 시절 모형 비행기와 작은 장난감을 조립하며 느낀 비행에 대한
+              호기심은, 원하는 궤적을 끝까지 완성해 내는 끈기를 기르는 밑거름이
+              되었습니다. 단순히 기체를 띄우는 즐거움에 그치지 않고, 기계가
+              움직이는 원리와 제어 과정을 파고들며 매뉴얼을 꼼꼼히 확인하는
+              습관을 자연스럽게 체득했습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              이러한 태도는 초경량비행장치 1종 조종자 및 지도조종사 자격 취득
+              과정에서 확고한 직무 철학으로 발전했습니다. 초기 비행 훈련
+              당시에는 바람의 세기와 기체 반응 차이로 인해 정밀한 제어에 난관을
+              겪기도 했습니다. 하지만 성급한 조작 대신 비행 전 점검표를 철저히
+              이행하고, 기동 후 로그를 단계별로 복기하며 기체 거동의 원리를 몸에
+              익혔습니다. 작은 기본기 하나도 타협하지 않고 훈련에 임한 결과,
+              교육생에게 표준 비행을 전수할 수 있는 지도조종사 자격을 성공적으로
+              취득했습니다.
+            </p>
+            <p
+              class="text-sm text-charcoal-600 leading-relaxed font-medium text-warm-900 bg-sand-50 p-3 rounded-xl border border-sand-200/70"
+            >
+              저의 직업관은 '화려한 이륙보다 완벽한 착륙을 완성하는 안전 제일의
+              책임감'입니다. 항공 분야에서 찰나의 방심은 기체 파손을 넘어 인명
+              피해로 이어질 수 있기에, 안전 매뉴얼 준수는 타협할 수 없는
+              절대적인 원칙이어야 합니다. 입사 후에도 비행 전·후 점검 절차를
+              빈틈없이 준수하여 위험 요인을 선제적으로 차단하겠습니다.
+            </p>
+          </div>
+
+          <!-- 문항 3: 직무 핵심 역량 및 문제 해결 경험 -->
+          <div id="statement-content-3" class="statement-pane hidden space-y-4">
+            <div
+              class="flex items-center justify-between pb-4 border-b border-sand-100"
+            >
+              <div>
+                <span class="text-[11px] font-bold text-warm-600 uppercase"
+                  >고용24 항목 3 (공백 포함 726자)</span
+                >
+                <h3 class="text-lg font-bold text-charcoal-800">
+                  3. 직무 핵심 역량 및 문제 해결 경험
+                </h3>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold bg-warm-50 text-warm-700"
+                >데이터 분석 & 정밀 제어</span
+              >
+            </div>
+            <div
+              class="text-sm font-bold text-warm-700 bg-warm-50/60 p-3.5 rounded-xl border border-warm-200/50"
+            >
+              [데이터 복기와 원리 분석으로 완성한 정밀 비행 역량]
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed pt-2">
+              초경량비행장치 조종자 1종 및 지도조종사 자격을 취득하며 체득한
+              핵심 역량은 '정밀한 기체 제어력'과 '원인 분석을 통한 비행 문제
+              해결 능력'입니다. 조종 감각에만 의존하지 않고 항공역학적 원리와
+              비행 데이터를 바탕으로 오차를 교정하는 역량을 집중적으로
+              길렀습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              지도조종사 실기 과정을 준비하며 가장 큰 난관은 돌풍이 부는
+              환경에서의 안정적인 고도 유지와 궤적 정밀도 확보였습니다. 초기에는
+              바람의 세기와 방향이 바뀔 때마다 스로틀을 과도하게 조작해 에이밍
+              지점을 이탈하거나 기체 흔들림이 심해지는 문제가 있었습니다. 문제
+              해결을 위해 비행이 끝날 때마다 비행 로그와 바람 조건, 키 입력
+              타이밍을 항목별로 기록하고 복기했습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              분석 결과, 기체가 밀려난 뒤 반응하는 사후 대처가 오차의 주원인임을
+              파악했습니다. 이에 바람의 방향에 맞춰 러더와 에일러론을 미세하게
+              선제 보정하는 카운터 키 조작 훈련을 반복했습니다. 조작 타이밍을 한
+              템포 앞당겨 기체의 수평 복원력을 안정화하자, 측풍 환경에서도 지정
+              반경 궤적을 벗어나지 않는 정밀한 비행을 완성할 수 있었습니다.
+            </p>
+            <p
+              class="text-sm text-charcoal-600 leading-relaxed font-medium text-warm-900 bg-sand-50 p-3 rounded-xl border border-sand-200/70"
+            >
+              이 경험을 통해 돌발 외란 속에서도 침착하게 원인을 분석하고 즉각
+              대응하는 비행 문제 해결력을 확립했습니다. 입사 후에도 다양한 기상
+              조건과 고난도 임무 환경에서 오차 없는 정밀 비행을 수행하며,
+              교육생들에게도 체계적인 조종 교정 노하우를 전달하겠습니다.
+            </p>
+          </div>
+
+          <!-- 문항 4: 협업 및 안전 소통 역량 -->
+          <div id="statement-content-4" class="statement-pane hidden space-y-4">
+            <div
+              class="flex items-center justify-between pb-4 border-b border-sand-100"
+            >
+              <div>
+                <span class="text-[11px] font-bold text-warm-600 uppercase"
+                  >고용24 항목 4 (공백 포함 692자)</span
+                >
+                <h3 class="text-lg font-bold text-charcoal-800">
+                  4. 협업 및 안전 소통 역량
+                </h3>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold bg-warm-50 text-warm-700"
+                >무사고 팀 브리핑</span
+              >
+            </div>
+            <div
+              class="text-sm font-bold text-warm-700 bg-warm-50/60 p-3.5 rounded-xl border border-warm-200/50"
+            >
+              [상호 점검과 명확한 소통으로 완성하는 무사고 비행]
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed pt-2">
+              드론 비행과 교육 현장에서 가장 중요한 팀워크 역량은 '투명한 정보
+              공유'와 '상호 점검 기반의 안전 소통'입니다. 조종자의 판단만
+              고집하지 않고 부조종자, 안전 관리 요원과 한 팀이 되어 위험 요소를
+              이중으로 차단하는 협업 태도를 꾸준히 실천해 왔습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              비행 실기 훈련 및 교육 과정에서는 비행 전후 브리핑 문화를
+              주도했습니다. 비행 전에는 당일 풍속, 장애물 위치, 비상 착륙
+              지점(RTH 위치)을 팀원들과 구체적으로 구두 확인하며 임무를
+              분담했습니다. 특히 기체가 시야에서 멀어지거나 배터리 잔량이
+              임계치에 다가올 때, 정해진 표준 콜아웃(구령)을 명확하게 복창하여
+              조종자와 감시자 간의 신호 왜곡을 방지했습니다.
+            </p>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              사소한 기체 떨림이나 모터 소음 이상이 감지되었을 때도 독단적인
+              비행을 즉각 멈추고 팀원에게 상황을 공유해 함께 점검표를 확인하며
+              원인을 규명했습니다. 이러한 상호 신뢰와 소통 덕분에 단 한 건의
+              기체 파손이나 안전사고 없이 모든 훈련을 성공적으로 마칠 수
+              있었습니다.
+            </p>
+            <p
+              class="text-sm text-charcoal-600 leading-relaxed font-medium text-warm-900 bg-sand-50 p-3 rounded-xl border border-sand-200/70"
+            >
+              입사 후에도 현장 동료 및 교육생들과 원활하게 소통하며 안전 비행
+              매뉴얼을 철저히 지키겠습니다. 서로의 사각지대를 보완해 주는 든든한
+              팀 플레이어로서 귀사의 무사고 운용 실적을 지켜내겠습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. 비행 전 5단계 점검 시뮬레이터 (SOP) ==================== -->
+    <section id="checklist" class="py-20 max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <span class="text-xs font-bold text-warm-600 tracking-wider uppercase"
+          >Standard Operating Procedure</span
+        >
+        <h2 class="text-3xl font-extrabold text-charcoal-800 mt-1">
+          비행 전 5단계 안전 체크리스트
+        </h2>
+        <p class="text-sm text-charcoal-600 mt-2">
+          무사고 100%를 달성한 박준혁 조종사의 실무 점검 절차입니다.
+        </p>
+        <div class="w-12 h-1 bg-warm-500 mx-auto mt-3 rounded-full"></div>
+      </div>
+
+      <div
+        class="bg-white border border-sand-200 rounded-3xl p-6 sm:p-8 shadow-md"
+      >
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 border-b border-sand-100 gap-3"
+        >
+          <div>
+            <h3
+              class="text-base font-bold text-charcoal-800 flex items-center gap-2"
+            >
+              <i data-lucide="shield-check" class="w-5 h-5 text-warm-600"></i>
+              PRE-FLIGHT SAFETY PROTOCOL
+            </h3>
+            <p class="text-xs text-charcoal-500">
+              5가지 필수 항목을 모두 점검하면 비행 승인 상태로 전환됩니다.
+            </p>
+          </div>
+          <div
+            class="px-3.5 py-1.5 rounded-xl bg-sand-100 border border-sand-200 text-xs font-bold text-charcoal-800"
+          >
+            점검 상태:
+            <span id="progressText" class="text-warm-600 font-mono">0 / 5</span>
+          </div>
+        </div>
+
+        <div class="space-y-3 py-6" id="checklistContainer">
+          <label
+            class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-sand-50 border border-sand-200 hover:bg-sand-100/60 cursor-pointer transition"
+          >
+            <input
+              type="checkbox"
+              onchange="updateChecklist()"
+              class="check-item w-4 h-4 rounded text-warm-500 focus:ring-warm-400 border-sand-300"
+            />
+            <div class="text-xs">
+              <span class="font-bold text-charcoal-800 block"
+                >1. 기체 외관 & 프로펠러 체결 상태 확인</span
+              >
+              <span class="text-charcoal-500"
+                >프롭 미세 균열 여부, 볼트 결속 토크 및 모터 베어링 유격 육안
+                점검</span
+              >
+            </div>
+          </label>
+
+          <label
+            class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-sand-50 border border-sand-200 hover:bg-sand-100/60 cursor-pointer transition"
+          >
+            <input
+              type="checkbox"
+              onchange="updateChecklist()"
+              class="check-item w-4 h-4 rounded text-warm-500 focus:ring-warm-400 border-sand-300"
+            />
+            <div class="text-xs">
+              <span class="font-bold text-charcoal-800 block"
+                >2. 배터리 셀 밸런스 및 전압 점검</span
+              >
+              <span class="text-charcoal-500"
+                >셀당 전압 편차 0.05V 이내 확인, 스웰링(부풀림) 점검 및 결속 락
+                확인</span
+              >
+            </div>
+          </label>
+
+          <label
+            class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-sand-50 border border-sand-200 hover:bg-sand-100/60 cursor-pointer transition"
+          >
+            <input
+              type="checkbox"
+              onchange="updateChecklist()"
+              class="check-item w-4 h-4 rounded text-warm-500 focus:ring-warm-400 border-sand-300"
+            />
+            <div class="text-xs">
+              <span class="font-bold text-charcoal-800 block"
+                >3. 조종기 링크 & 콤파스·GPS 위성 수신 확인</span
+              >
+              <span class="text-charcoal-500"
+                >송수신 RSSI 강도 정상 확인 및 GPS 위성 12개 이상 수신 안정성
+                확인</span
+              >
+            </div>
+          </label>
+
+          <label
+            class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-sand-50 border border-sand-200 hover:bg-sand-100/60 cursor-pointer transition"
+          >
+            <input
+              type="checkbox"
+              onchange="updateChecklist()"
+              class="check-item w-4 h-4 rounded text-warm-500 focus:ring-warm-400 border-sand-300"
+            />
+            <div class="text-xs">
+              <span class="font-bold text-charcoal-800 block"
+                >4. 자동 복귀 고도(RTH) 및 비상 안전 공역 설정</span
+              >
+              <span class="text-charcoal-500"
+                >주변 장애물 대비 여유 고도 설정 및 페일세이프(Fail-Safe) 복귀
+                위치 팀원 공유</span
+              >
+            </div>
+          </label>
+
+          <label
+            class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-sand-50 border border-sand-200 hover:bg-sand-100/60 cursor-pointer transition"
+          >
+            <input
+              type="checkbox"
+              onchange="updateChecklist()"
+              class="check-item w-4 h-4 rounded text-warm-500 focus:ring-warm-400 border-sand-300"
+            />
+            <div class="text-xs">
+              <span class="font-bold text-charcoal-800 block"
+                >5. 기상 상태 및 현장 팀원 상호 브리핑(표준 콜아웃)</span
+              >
+              <span class="text-charcoal-500"
+                >순간 풍속 측정, 비행 반경 내 인원 통제 확인, 구령 복창 준비
+                완료</span
+              >
+            </div>
+          </label>
+        </div>
+
+        <div
+          class="pt-4 border-t border-sand-100 flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
+          <div
+            id="statusBadge"
+            class="text-xs font-semibold text-charcoal-600 flex items-center gap-2"
+          >
+            <span class="w-2 h-2 rounded-full bg-warm-400"></span> 점검 진행 중
+            (항목을 체크해 주세요)
+          </div>
+          <button
+            id="takeoffBtn"
+            disabled
+            onclick="executeTakeoff()"
+            class="w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs bg-sand-200 text-charcoal-500 cursor-not-allowed transition flex items-center justify-center gap-2"
+          >
+            <i data-lucide="plane" class="w-4 h-4"></i> 점검 완료 및 비행 승인
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 5. 기술 인터뷰 FAQ (전문 면접 대비 전략) ==================== -->
+    <section id="faq" class="py-20 bg-sand-100/70 border-t border-sand-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs font-bold text-warm-600 tracking-wider uppercase"
+            >Technical Interview Q&A</span
+          >
+          <h2 class="text-3xl font-extrabold text-charcoal-800 mt-1">
+            핵심 실전 기술 Q&A
+          </h2>
+          <p class="text-sm text-charcoal-600 mt-2">
+            실제 항공 비행 및 위기 상황에 대한 메커니즘 이해와 대응 전략입니다.
+          </p>
+          <div class="w-12 h-1 bg-warm-500 mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- 질문 1 -->
+          <div
+            class="bg-white border border-sand-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <button
+              onclick="toggleFaq(1)"
+              class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-charcoal-800 hover:text-warm-600 transition"
+            >
+              <span class="flex items-center gap-2.5">
+                <span
+                  class="w-6 h-6 rounded-lg bg-warm-100 text-warm-600 text-xs flex items-center justify-center shrink-0"
+                  >Q1</span
+                >
+                측풍 환경에서 '선제적 카운터 키 조작'이란 구체적으로 어떻게
+                비행하는 것인가요?
+              </span>
+              <i
+                data-lucide="chevron-down"
+                id="faq-icon-1"
+                class="w-4 h-4 text-charcoal-500 transition-transform"
+              ></i>
+            </button>
+            <div
+              id="faq-ans-1"
+              class="hidden px-5 pb-5 text-xs text-charcoal-600 leading-relaxed border-t border-sand-100 pt-3"
+            >
+              기체가 바람에 밀려난 뒤 반응하는 사후 조작은 반경 이탈과 기체
+              흔들림을 유발합니다. 바람의 방향과 세기를 비행 전과 실시간 기동
+              중에 미리 감지하여, 바람이 불어오는 쪽으로 에일러론과 러더를 한
+              템포 앞서 미세하게 타각을 주는 기법입니다. 이를 통해 수평 복원력을
+              선제적으로 유지하며 지정된 반경 궤적을 오차 없이 완수할 수
+              있습니다.
+            </div>
+          </div>
+
+          <!-- 질문 2 -->
+          <div
+            class="bg-white border border-sand-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <button
+              onclick="toggleFaq(2)"
+              class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-charcoal-800 hover:text-warm-600 transition"
+            >
+              <span class="flex items-center gap-2.5">
+                <span
+                  class="w-6 h-6 rounded-lg bg-warm-100 text-warm-600 text-xs flex items-center justify-center shrink-0"
+                  >Q2</span
+                >
+                비행 중 갑작스러운 통신 두절(Fail-Safe)이 발생하면 1단계로
+                무엇을 점검합니까?
+              </span>
+              <i
+                data-lucide="chevron-down"
+                id="faq-icon-2"
+                class="w-4 h-4 text-charcoal-500 transition-transform"
+              ></i>
+            </button>
+            <div
+              id="faq-ans-2"
+              class="hidden px-5 pb-5 text-xs text-charcoal-600 leading-relaxed border-t border-sand-100 pt-3"
+            >
+              조종기 통신 단절 감지 즉시 팀원들에게 "통신 두절(Fail-Safe)"을
+              구두로 전파하여 이착륙장 주변 인원의 안전거리를 확보합니다. 이후
+              기체가 페일세이프 설정 고도로 자동 상승하여 사전 설정된 RTH(Home)
+              지점으로 자율 복귀하는 비행 궤적을 육안으로 감시하고, 전파 간섭
+              요소를 피해 송신기 안테나 각도를 재조정하며 수동 조종권 회수 가능
+              여부를 침착하게 교차 검증합니다.
+            </div>
+          </div>
+
+          <!-- 질문 3 -->
+          <div
+            class="bg-white border border-sand-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <button
+              onclick="toggleFaq(3)"
+              class="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-charcoal-800 hover:text-warm-600 transition"
+            >
+              <span class="flex items-center gap-2.5">
+                <span
+                  class="w-6 h-6 rounded-lg bg-warm-100 text-warm-600 text-xs flex items-center justify-center shrink-0"
+                  >Q3</span
+                >
+                Google AI 자격증과 드론 운용 직무는 현장에서 어떻게 시너지를
+                내나요?
+              </span>
+              <i
+                data-lucide="chevron-down"
+                id="faq-icon-3"
+                class="w-4 h-4 text-charcoal-500 transition-transform"
+              ></i>
+            </button>
+            <div
+              id="faq-ans-3"
+              class="hidden px-5 pb-5 text-xs text-charcoal-600 leading-relaxed border-t border-sand-100 pt-3"
+            >
+              드론 운용은 비행 후 누적되는 기체 텔레메트리, 배터리 소모율, 비행
+              영상 데이터 등 수많은 데이터와의 싸움입니다. Google AI 전문 과정을
+              통해 배운 데이터 분석 기법과 AI 툴을 활용하면, 비행 로그를
+              체계적으로 분석해 부품 피로도 및 이상 징후를 조기에 예측할 수
+              있으며, 촬영 영상 분류 및 비행 행정 보고서 작성을 자동화하여 현장
+              운용 효율을 획기적으로 개선할 수 있습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 6. CONTACT & FOOTER ==================== -->
+    <section id="contact" class="py-20 bg-warm-100/50 border-t border-sand-200">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <div
+          class="p-8 sm:p-12 rounded-3xl bg-white border border-sand-200 shadow-lg relative overflow-hidden"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl bg-warm-100 text-warm-600 flex items-center justify-center mx-auto mb-5 shadow-inner"
+          >
+            <i data-lucide="mail-check" class="w-7 h-7"></i>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-charcoal-800">
+            신뢰할 수 있는 드론 & AI 테크 전문가
+          </h2>
+
+          <p
+            class="text-sm text-charcoal-600 max-w-md mx-auto mt-3 leading-relaxed"
+          >
+            탄탄한 기본기와 지도조종자 자격, AI 융합 감각을 갖춘 박준혁입니다.
+            채용 제안 및 업무 협업 문의는 언제든 이메일로 연락 주시면 신속히
+            답변드리겠습니다.
+          </p>
+
+          <!-- 이메일 복사 액션 -->
+          <div
+            class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3"
+          >
+            <div
+              class="px-5 py-3 rounded-2xl bg-sand-100 border border-sand-200 text-charcoal-800 font-mono text-sm font-semibold select-all"
+            >
+              juni2204@naver.com
+            </div>
+            <button
+              onclick="copyEmail()"
+              class="px-6 py-3 rounded-2xl bg-warm-500 hover:bg-warm-600 text-white font-bold text-sm shadow-md shadow-warm-500/20 transition flex items-center gap-2 active:scale-95"
+            >
+              <i data-lucide="copy" class="w-4 h-4"></i> 이메일 복사하기
+            </button>
+          </div>
+
+          <!-- 공식 구직 인증 정보 (개인정보 보호 처리) -->
+          <div
+            class="mt-8 pt-6 border-t border-sand-100 text-xs text-charcoal-500 space-y-1"
+          >
+            <div>
+              희망 근무지 : 경기 의정부시 · 서울 전 지역 | 고용형태 : 정규직
+              (기간에 정함이 없는 근로계약)
+            </div>
+            <div class="text-[11px] text-warm-700 font-medium">
+              구직인증번호 : K180112609210126 (인증기관: 의정부고용센터)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 하단 저작권 푸터 -->
+    <footer
+      class="py-8 bg-sand-50 border-t border-sand-200 text-center text-xs text-charcoal-500"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <div>&copy; 2026 박준혁 (PARK JUN-HYEOK). All Rights Reserved.</div>
+        <div
+          class="flex flex-wrap items-center justify-center gap-3 text-warm-700 font-medium"
+        >
+          <span>초경량비행장치 1종</span>
+          <span>•</span>
+          <span>한국교통안전공단 지도조종자</span>
+          <span>•</span>
+          <span>Google AI Certified</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 토스트 알림창 -->
+    <div
+      id="toast"
+      class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-2 bg-charcoal-800 text-white px-5 py-3.5 rounded-2xl shadow-xl text-sm font-semibold pointer-events-none"
+    >
+      <i data-lucide="check-circle-2" class="w-4 h-4 text-warm-400"></i>
+      <span id="toastMsg">이메일 주소가 복사되었습니다.</span>
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+      // 1. 자기소개서 4개 문항 탭 스위처
+      function switchStatement(tabNumber) {
+        document.querySelectorAll(".statement-pane").forEach((pane) => {
+          pane.classList.add("hidden");
+          pane.classList.remove("block");
+        });
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.className =
+            "tab-btn px-4 py-3 rounded-2xl text-xs font-bold transition text-center bg-white text-charcoal-600 border border-sand-200 hover:bg-sand-50";
+        });
+
+        const activePane = document.getElementById(
+          `statement-content-${tabNumber}`
+        );
+        const activeBtn = document.getElementById(`tab-btn-${tabNumber}`);
+
+        if (activePane && activeBtn) {
+          activePane.classList.remove("hidden");
+          activePane.classList.add("block");
+          activeBtn.className =
+            "tab-btn px-4 py-3 rounded-2xl text-xs font-bold transition text-center bg-warm-500 text-white shadow-md";
+        }
+      }
+
+      // 2. 비행 전 체크리스트 점검 로직
+      function updateChecklist() {
+        const checkboxes = document.querySelectorAll(".check-item");
+        const checkedCount = Array.from(checkboxes).filter(
+          (cb) => cb.checked
+        ).length;
+        const total = checkboxes.length;
+
+        document.getElementById(
+          "progressText"
+        ).innerText = `${checkedCount} / ${total}`;
+
+        const takeoffBtn = document.getElementById("takeoffBtn");
+        const statusBadge = document.getElementById("statusBadge");
+
+        if (checkedCount === total) {
+          takeoffBtn.disabled = false;
+          takeoffBtn.className =
+            "w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs bg-warm-500 hover:bg-warm-600 text-white cursor-pointer shadow-md shadow-warm-500/20 transition flex items-center justify-center gap-2";
+          statusBadge.className =
+            "text-xs font-semibold text-emerald-600 flex items-center gap-2";
+          statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> 5개 항목 점검 완료 (비행 승인 상태)`;
+        } else {
+          takeoffBtn.disabled = true;
+          takeoffBtn.className =
+            "w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs bg-sand-200 text-charcoal-500 cursor-not-allowed transition flex items-center justify-center gap-2";
+          statusBadge.className =
+            "text-xs font-semibold text-charcoal-600 flex items-center gap-2";
+          statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-warm-400"></span> 점검 진행 중 (${checkedCount}/${total} 완료)`;
+        }
+      }
+
+      function executeTakeoff() {
+        showToast("비행 전 점검 승인 완료! 안전 비행 준비가 완료되었습니다.");
+      }
+
+      // 3. 기술 FAQ 아코디언 토글
+      function toggleFaq(id) {
+        const ans = document.getElementById(`faq-ans-${id}`);
+        const icon = document.getElementById(`faq-icon-${id}`);
+        if (ans.classList.contains("hidden")) {
+          ans.classList.remove("hidden");
+          icon.classList.add("rotate-180");
+        } else {
+          ans.classList.add("hidden");
+          icon.classList.remove("rotate-180");
+        }
+      }
+
+      // 4. 이메일 클립보드 복사
+      function copyEmail() {
+        const email = "juni2204@naver.com";
+        const tempInput = document.createElement("input");
+        tempInput.value = email;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        showToast("이메일(juni2204@naver.com)이 복사되었습니다!");
+      }
+
+      // 5. 토스트 팝업 함수
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        const toastMsg = document.getElementById("toastMsg");
+        toastMsg.innerText = message;
+
+        toast.classList.remove("translate-y-24", "opacity-0");
+        toast.classList.add("translate-y-0", "opacity-100");
+
+        setTimeout(() => {
+          toast.classList.remove("translate-y-0", "opacity-100");
+          toast.classList.add("translate-y-24", "opacity-0");
+        }, 2600);
+      }
+
+      // 아이콘 렌더링
+      window.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>
